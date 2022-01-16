@@ -1,0 +1,121 @@
+{load_file("nrngui.hoc")}
+objectvar save_window_, rvp_
+objectvar scene_vector_[4]
+objectvar ocbox_, ocbox_list_, scene_, scene_list_
+{ocbox_list_ = new List()  scene_list_ = new List()}
+{pwman_place(0,0,0)}
+
+//Begin ArtCellGUI[0]
+{
+load_file("netbild.hoc")
+}
+ocbox_ = new ArtCellGUI(1)
+{object_push(ocbox_)}
+{
+tobj = new MechanismStandard("NetStim")
+tobj.set("interval", 10, 0)
+tobj.set("number", 10, 0)
+tobj.set("start", 10, 0)
+tobj.set("noise", 0, 0)
+}
+{append(tobj, "S")}
+{
+tobj = new MechanismStandard("IntFire1")
+tobj.set("tau", 10, 0)
+tobj.set("refrac", 5, 0)
+}
+{append(tobj, "C")}
+{object_pop()}
+{
+ocbox_.map("ArtCellGUI[0]", 735, 631, 372.6, 419.4)
+}
+objref ocbox_
+//End ArtCellGUI[0]
+
+
+//Begin NetGUI[0]
+{
+load_file("netbild.hoc")
+}
+{ocbox_ = new NetGUI(1)}
+{object_push(ocbox_)}
+{mapold2new = new Vector()  missing = new List()}
+original_type("S")
+original_type("C")
+newnode(0, 0, 0)
+newnode(1, 50, 0)
+newedge(0, 1, 0, 2, 1)
+{create_ = 1  create1()}
+{g.size(0,50,-24.8972,27.3972)}
+{set_alias(0)}
+{object_pop()}
+{
+ocbox_.map("NetGUI[0]", 12, 552, 529.2, 483.3)
+}
+objref ocbox_
+//End NetGUI[0]
+
+
+//Begin SpikePlot[0] for NetData[0] staf/elburg
+{
+load_file("netbild.hoc")
+}
+{ocbox_ = new SpikePlot(NetData[0],1)}
+{object_push(ocbox_)}
+mode = 1
+spikeplotstyle= 0
+marksize= 4
+markcolor= 1
+useline= 1
+fwindow = 100
+binwidth = 10
+build()
+subset_start=0
+subset_end = 2
+{g.size(0,5,-2.98023e-08,3)}
+{object_pop()}
+{
+ocbox_.map("SpikePlot[0] for NetData[0] staf/elburg", 1252, 594, 325.8, 450)
+}
+objref ocbox_
+//End SpikePlot[0] for NetData[0] staf/elburg
+
+{
+xpanel("RunControl", 0)
+v_init = -65
+xvalue("Init","v_init", 1,"stdinit()", 1, 1 )
+xbutton("Init & Run","run()")
+xbutton("Stop","stoprun=1")
+runStopAt = 5
+xvalue("Continue til","runStopAt", 1,"{continuerun(runStopAt) stoprun=1}", 1, 1 )
+runStopIn = 1
+xvalue("Continue for","runStopIn", 1,"{continuerun(t + runStopIn) stoprun=1}", 1, 1 )
+xbutton("Single Step","steprun()")
+t = 200
+xvalue("t","t", 2 )
+tstop = 200
+xvalue("Tstop","tstop", 1,"tstop_changed()", 0, 1 )
+dt = 0.025
+xvalue("dt","dt", 1,"setdt()", 0, 1 )
+steps_per_ms = 40
+xvalue("Points plotted/ms","steps_per_ms", 1,"setdt()", 0, 1 )
+screen_update_invl = 0.05
+xvalue("Scrn update invl","screen_update_invl", 1,"", 0, 1 )
+realtime = 0.04
+xvalue("Real Time","realtime", 0,"", 0, 1 )
+xpanel(445,84)
+}
+
+//Begin Movie Run
+{
+movie_frame_dur_ = 0.01
+
+movierunpanel(0)
+ocbox_ = movierunbox
+ocbox_.map("Movie Run", 10, 188, 301.5, 220.5)
+}
+objref ocbox_
+//End Movie Run
+
+objectvar scene_vector_[1]
+{doNotify()}
